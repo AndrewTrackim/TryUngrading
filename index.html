@@ -1,331 +1,56 @@
 <!doctype html>
 <html>
-<head>
-<meta charset="utf-8">
-
-<title>Basketball Un-Grading Game</title>
-</head>
+  <head>
+    <!--required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Home</title>
+    <style>
+      #heading {
+        color: white;
+        padding: 200px 200px 200px 200px;
+        background-image: url("f.png");
+        background-position: center;
+      }
+    </style>
+  </head>
 
 <body>
-	<canvas id="gc" width="960" height="720" style="z-index:1"></canvas>
-	
-	<!-- create all of the buttons that pop up throughout the game -->
-	<button id="next" onClick="nextFrame()" style="z-index:2; position:absolute; top:650px; left:470px">Next</button>
-	<br><button id="3pointer" onClick="set2()" style="z-index:2; position:absolute; top:650px; left:400px; display:none">2 Pointer</button>
-	<br><button id="2pointer" onClick="set3()" style="z-index:2; position:absolute; top:650px; left:490px; display:none">3 Pointer</button>
-	<button id="set" onClick="set()" style="z-index:2; position:absolute; top:675px; left:435px; display:none">Set Position</button>
-	<button id="shoot" onClick="shoot()" style="z-index:2; position:absolute; top:650px; left:435px; display:none">Shoot</button>
-	<br><h3 id="test" style="z-index:2; position:absolute; top:300px; left:600px; display:none; font-family:verdana">3 Pointer</h3>
-	
-	<h1>Explanation</h1>
-	<p>Ungrading is a concept where teachers move away from a traditional grading system, usually in favor of a more feedback and communicative approach.<br> According to Professor Jennifer Hurley, grading isn't very satisfying for teachers because they try to give thoughtful feedback, but students only care <br> about the number, ignoring the feedback. She also explains how sometimes people are too embarrassed or scared to look at the feedback after seeing their grade.<br> Professor Hurley has noted that students will try to do the bare minimum to get an A just to play it safe. She also believes that her students work harder when they aren't <br> being graded. 
-		
-	<br><br> According to Colleen Flaherty, colleges are often resistant to ungrading because it goes against the "culture of assessment", and it is scary to suddenly transition to gradeless. <br>According to a scholarly article by Jeffrey Schinske and Kimberly Tanner, grades motivate students extrinsically by making them afraid of punishment or shame. They explain<br> that grades lessen intrinsic motivation, and the fear created by grades reduces interest and enjoyment of classwork. This is the main concept I played upon in my game, because <br> I have personally experienced this in some of my classes in subjects that I actually enjoy. They also explained that fear also causes students to avoid challenges. I also included <br>this idea in the game by making it much riskier to get a 3-pointer. Ultimately there are many negative side effects of grading, and students often get more out of their classes<br> if they aren't being graded and are instead given feedback.<br><br>
-		
-	So what do we replace grades with? In her online video conference, Starr Sackstein, a highschool teacher, explains her system for un-grading. She believes that using a portfolio<br> instead of traditional exams and grades is effective. Students can pick projects they want to include in their portfolio and can explain why they picked specific assignments. <br>She also believes that teachers should make their classes more project-based since projects allow stronger teacher-to-student feedback. She states that teachers and students should <br>have ongoing conversations so they are on the same page about the course expectations, and one way students can receive feedback is with reports of how the teacher assesses their <br>skills in key areas. This would be comment based feedback of course. There are a lot of things that teachers could do to replace grading in their classes. 
-	</p>
-	
-	<h3>Works Cited:</h3> 
-	<p>Schinske, Jeffrey, and Kimberly Tanner. “Teaching More by Grading Less (or Differently).” CBE life sciences education vol. 13,2 (2014): 159-66. doi:10.1187/cbe.cbe-14-03-0054 <br>
-	Flaherty, Colleen. Professors' Reflections on Their Experiences with 'Ungrading' Spark Renewed Interest in the Student-Centered Assessment Practice, 2019, www.insidehighered.com/news/2019/04/02/professors-reflections-their-experiences-ungrading-spark-renewed-interest-student. <br>
-	Hurley, Jennifer. “I Stopped Grading. You Can, Too.” Medium, Edmodo, 16 May 2018, medium.com/edmodoblog/i-stopped-grading-you-can-too-33f155911f4e. <br>
-	Sackstein, Starr. “How Teachers Can Get Rid of Traditional Grades to Promote Learning.” Youtube, Education Week, 25 May 2017, www.youtube.com/watch?v=DLnW5-OEPBk. </p>
-	
-	<script>
-		var currScreen = 0;
-		var backgrounds;
-		var dribbleFrames;
-		initializeDribble();
-		initializeBackgrounds();
-		var canvas = document.getElementById("gc");
-		var canvasContext =canvas.getContext('2d');
-		var interval;
-		var sprites;
-		
-		//variables for dribble boy scale
-		var scale = 1;
-		var offsetW = 0, offsetH = 0;
-		//keep track of accuracy
-		var position;
-		
-		//setInterval(update,1000/30);
-		canvasContext.fillRect(0, 0, 960, 720);
+    <!--Navigation bar. MAKE SURE IT'S AT THE TOP OF EVERY PAGE-->
+    <!--https://getbootstrap.com/docs/4.0/components/navbar/-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Try Ungrading</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="basketballCode.html">Problems With grading</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Basics of Ungrading</a>
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">How to Undgrade Your Class</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
 
-		//use onload to wait until the picture has actually loaded before trying to draw it. 
-		backgrounds[0].onload = function(){
-    		canvasContext.drawImage(backgrounds[0], 0, 0);
-  		}
-		
-		function nextFrame() {
-			clearInterval(interval);
-			document.getElementById("test").style.display = "none";
-			this.canvasContext.fillRect(0, 0, 960, 720);
-    		this.canvasContext.drawImage(backgrounds[++currScreen], 0, 0);
-			
-			if (currScreen == 2 || currScreen == 4) {
-				document.getElementById("next").style.display = "none";
-				document.getElementById("2pointer").style.display = "block";
-				document.getElementById("3pointer").style.display = "block";
-				document.getElementById("set").style.display = "block";
-				if (currScreen == 2) {
-					dribble(true);
-				} else {
-					dribble(false);
-				} 
-			}
-			if (currScreen == 5) {
-				document.getElementById("next").style.display = "none";
-			}
-		}
-		
-		function dribble(happy) {
-			var counter = 0;
-			var mouth = new Image();
-			var coach = new Image();
-			if (happy) {
-				mouth.src = "assets/faces/smile.png";
-			} else {
-				mouth.src = "assets/faces/frown.png";
-				coach.src = "assets/coach.png";
-				
-			}
-			
-			interval = setInterval(function() {
-				this.canvasContext.drawImage(backgrounds[2], 0, 0);
-				if (counter == 9) {
-					counter = 0;
-				}
-				this.canvasContext.drawImage(dribbleFrames[counter], offsetW, offsetH, dribbleFrames[counter].width * scale, dribbleFrames[counter].height * scale);
-				this.canvasContext.drawImage(mouth, offsetW, offsetH, (mouth.width * scale), (mouth.height * scale));
-				if (!happy) {
-					this.canvasContext.drawImage(coach, 0, 0);
-				}
-				counter++;
-				
-			}, 20);
-    			
-		}
-		
-		function initializeBackgrounds() {
-			var array = [new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
-			array[0].src = "assets/backgrounds/titleScreen.png";
-			array[1].src = "assets/backgrounds/scenario1.png";
-			array[2].src = "assets/backgrounds/court.png";
-			array[3].src = "assets/backgrounds/funExplanation.png";
-			array[4].src = "assets/backgrounds/court.png";
-			array[5].src = "assets/backgrounds/conclusionScreen.png";
-			this.backgrounds = array;
-		}
-		
-		function initializeDribble() {
-			document.getElementById("test").innerHTML = "JD Power";
-			var array = [new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
-			array[0].src = "assets/dribble/dribble1.png";
-			array[1].src = "assets/dribble/dribble2.png";
-			array[2].src = "assets/dribble/dribble3.png";
-			array[3].src = "assets/dribble/dribble4.png";
-			array[4].src = "assets/dribble/dribble5.png";
-			array[5].src = "assets/dribble/dribble4.png";
-			array[6].src = "assets/dribble/dribble3.png";
-			array[7].src = "assets/dribble/dribble2.png";
-			array[8].src = "assets/dribble/dribble1.png";
-			array[9].src = "assets/throw/throw1.png";
-			array[10].src = "assets/throw/throw2.png";
-			array[11].src = "assets/ball.png";
-			array[12].src = "assets/coach.png";
-			array[13].src = "lucky.png";
-			array[14].src = "assets/failTextBox.png";
-			document.getElementById("test").innerHTML = "soup";
-			
-			this.dribbleFrames = array;
-		}
-		
-		function set2() {
-			scale = .5;
-			offsetH = 175;
-			offsetW = 220;
-		}
-		
-		function set3() {
-			scale = 1;
-			offsetH = 0;
-			offsetW = 0;
-		}
-		
-		function set() {
-			clearInterval(interval);
-			//set up shooting position image
-			var coach = new Image();
-			var shootPose = new Image();
-			shootPose.src = "assets/throw/throw1.png";
-			var mouth = new Image();
-			if (currScreen == 2) {
-				mouth.src = "assets/faces/smile.png";
-			} else {
-				mouth.src = "assets/faces/frown.png";
-				coach.src = "assets/coach.png";
-			}
-			
-			//position variable for aim thing
-			position = -1;
-			
-			//set button visibility
-			document.getElementById("2pointer").style.display = "none";
-			document.getElementById("3pointer").style.display = "none";
-			document.getElementById("set").style.display = "none";
-			document.getElementById("shoot").style.display = "block";
-			document.getElementById("test").style.display = "none";
-			
-			var speed;
-			if (scale == 1) {
-				speed = 1;
-			} else {
-				speed = 10;
-			}
-			
-			//redraw the frame and prepare shooting
-			interval = setInterval(function() {
-				this.canvasContext.drawImage(backgrounds[2], 0, 0);
-				this.canvasContext.drawImage(shootPose, offsetW, offsetH, shootPose.width * scale, shootPose.height * scale);
-				this.canvasContext.drawImage(mouth, offsetW, offsetH, (mouth.width * scale), (mouth.height * scale));
-				if (currScreen == 4) {
-					this.canvasContext.drawImage(coach, 0, 0);
-				}
-				
-				//create rail
-				this.canvasContext.fillStyle = "grey";
-				this.canvasContext.fillRect(900, 100, 20, 200);
-				// create target zone
-				this.canvasContext.fillStyle = "green";
-				this.canvasContext.fillRect(895, 190, 30, 20);
-				// create aim line
-				this.canvasContext.fillStyle = "red";
-				this.canvasContext.fillRect(900, 100 + position, 20, 10);
-				position += 2;
-				//reset arrow thing if it gets to the end
-				if (position >= 190) {
-					position = -1;
-				}
-			}, speed); 
-		}
-		
-		function shoot() {
-			document.getElementById("shoot").style.display = "none";
-			clearInterval(interval);
-			//set up shooting position image
-			var coach = new Image();
-			var lucky = new Image();
-			var fail = new Image();
-			var shootPose = new Image();
-			shootPose.src = "assets/throw/throw2.png";
-			var ball = new Image();
-			ball.src = "assets/ball.png";
-			var mouth = new Image();
-			if (currScreen == 2) {
-				mouth.src = "assets/faces/smile.png";
-			} else {
-				mouth.src = "assets/faces/frown.png";
-				coach.src = "assets/coach.png";
-				lucky.src = "assets/lucky.png";
-				fail.src = "assets/failTextBox.png";
-			}
-			
-			var x = 0, y = 0;
-			var xOffset, yOffset;
-			
-			interval = setInterval(function() {
-				this.canvasContext.drawImage(backgrounds[2], 0, 0);
-				this.canvasContext.drawImage(shootPose, offsetW, offsetH, shootPose.width * scale, shootPose.height * scale);
-				this.canvasContext.drawImage(mouth, offsetW, offsetH, (mouth.width * scale), (mouth.height * scale));
-				if (currScreen == 4) {
-					this.canvasContext.drawImage(coach, 0, 0);
-				}
-				
-				if (position > 90 && position < 110) {
-					if (scale == 1) {
-						//success
-						xOffset = 190;
-						yOffset = 40;
-						y = -50 * (-1 * (1 / 70 * x + 3) ** 2 - (1 / 70 * x + 3) ** (-2) + 9);
-						this.canvasContext.drawImage(ball, xOffset + x, yOffset + y);
-						document.getElementById("test").innerHTML = x;
-						x--;
-						if (x < -187) {
-							document.getElementById("test").style.display = "block";
-							if (currScreen == 4) {
-							canvasContext.drawImage(lucky, 0, 0);
-							document.getElementById("test").innerHTML = "You get an A.";
-							} else {
-								document.getElementById("test").innerHTML = "Great job! That was impressive!";
-							}
-							document.getElementById("next").style.display = "block";
-							cancelInterval();
-						}
-					} else {
-						xOffset = 315;
-						yOffset = 180;
-						y = -35 * (-1 * (1 / 30 * x + 3) ** 2 - (1 / 30 * x + 3) ** (-2) + 9);
-						this.canvasContext.drawImage(ball, xOffset + x, yOffset + y, ball.width * scale, ball.height * scale);
-						document.getElementById("test").innerHTML = x;
-						x--;
-						if (x < -81) {
-							document.getElementById("test").style.display = "block";
-							
-							document.getElementById("next").style.display = "block";
-							if (currScreen == 4) {
-							canvasContext.drawImage(lucky, 0, 0);
-							document.getElementById("test").innerHTML = "You get an A.";
-							} else {
-								document.getElementById("test").innerHTML = "Good job. I bet you could go for 3!";
-							}
-							cancelInterval();
-						}
-					}
-				} else {
-					if (scale == 1) {
-					//fail
-						xOffset = 190;
-						yOffset = 40;
-						y = -50 * (-1 * (1 / 50 * x + 3) ** 2 - (1 / 50 * x + 3) ** (-2) + 9);
-						this.canvasContext.drawImage(ball, xOffset + x, yOffset + y);
-						document.getElementById("test").innerHTML = x;
-						x--;
-						if (x < -134) {
-							document.getElementById("test").style.display = "block";
-							
-							if (currScreen == 4) {
-								document.getElementById("test").innerHTML = "Maybe you shouldn't have taken that risk...";
-								canvasContext.drawImage(fail, 0, 0);
-								document.getElementById("next").style.display = "block";
-							} else {
-								document.getElementById("test").innerHTML = "Give it another shot!";
-								document.getElementById("set").style.display = "block";
-							}
-							cancelInterval();
-						}
-					} else {
-						xOffset = 315;
-						yOffset = 180;
-						y = -40 * (-1 * (1 / 50 * x + 3) ** 2 - (1 / 50 * x + 3) ** (-2) + 9);
-						this.canvasContext.drawImage(ball, xOffset + x, yOffset + y, ball.width * scale, ball.height * scale);
-						document.getElementById("test").innerHTML = x;
-						x--;
-						if (x < -135) {
-							document.getElementById("test").style.display = "block";
-							document.getElementById("test").innerHTML = "You couldn't even do the bare minimum.";
-							document.getElementById("next").style.display = "block";
-							canvasContext.drawImage(fail, 0, 0);
-							cancelInterval();
-						}
-					}
-				}
-			}, 5);
-		}
-		
-		function cancelInterval() {
-			clearInterval(interval);
-		}
-		
-	</script>
+  <div class="container">
+    <div id="heading">
+      <h1 style="text-align: center;">Try Undgrading!</h1>
+    </div>
+    <div class="p-5">
+      <p> You are probably used to teaching your class using the normal grading structure that seems
+        fundamental to the classroom. But what if I told you that this style of teaching
+        doesn't help your students learn but could actually be harmful to your students' learning?
+        Look through this website to learn more about the problems with traditional grading, the concept behind un-grading,
+        and how you can implement it in your classroom! </p>
+    </div>
+  </div>
+
 </body>
-</html>
