@@ -1,255 +1,331 @@
 <!doctype html>
 <html>
-	<head>
-		<!--required meta tags -->
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		
-		<!-- bootstrap CSS -->
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-		
-		<title>New Years Song Alligner</title>
-	</head>
+<head>
+<meta charset="utf-8">
+
+<title>Basketball Un-Grading Game</title>
+</head>
+
+<body>
+	<canvas id="gc" width="960" height="720" style="z-index:1"></canvas>
 	
-	<body>
-		<!-- this is just where I define all the audio files for later -->
-		<div class="audio">
-			<audio id="song">
-				<source src="https://drive.google.com/uc?export=download&id=1wEYlJxGe370NlhQhvQmviUVSVsOGi8NM" type="audio/ogg">
-			</audio>
-			<audio id="dramatic">
-				<source src="https://drive.google.com/uc?export=download&id=171f9b-ey_bYkR6LHltO6rAJiEIvdFYLD" type="audio/ogg">
-			</audio>
-			<audio id="custom">
-				<source src="" type="audio/ogg">
-			</audio>
-			
-		</div>
-		<div class="container">
-			<div class= "row"> 
-				<div class="col">
-					<br><h1 style="text-align: center;">New Years Song Alligner</h1><br>
-					<p style="text-align: center;">This website allows you to allign songs with the new years countdown just like you've seen in the memes! Note: the custom song section doesn't work well with youtube links on mobile.</p><br>
+	<!-- create all of the buttons that pop up throughout the game -->
+	<button id="next" onClick="nextFrame()" style="z-index:2; position:absolute; top:650px; left:470px">Next</button>
+	<br><button id="3pointer" onClick="set2()" style="z-index:2; position:absolute; top:650px; left:400px; display:none">2 Pointer</button>
+	<br><button id="2pointer" onClick="set3()" style="z-index:2; position:absolute; top:650px; left:490px; display:none">3 Pointer</button>
+	<button id="set" onClick="set()" style="z-index:2; position:absolute; top:675px; left:435px; display:none">Set Position</button>
+	<button id="shoot" onClick="shoot()" style="z-index:2; position:absolute; top:650px; left:435px; display:none">Shoot</button>
+	<br><h3 id="test" style="z-index:2; position:absolute; top:300px; left:600px; display:none; font-family:verdana">3 Pointer</h3>
 	
-					<!-- <marquee scrollamount="20">This is here because every crappy website needs scrolling text at some point.</marquee> -->
-				</div>
-			</div>
+	<h1>Explanation</h1>
+	<p>Ungrading is a concept where teachers move away from a traditional grading system, usually in favor of a more feedback and communicative approach.<br> According to Professor Jennifer Hurley, grading isn't very satisfying for teachers because they try to give thoughtful feedback, but students only care <br> about the number, ignoring the feedback. She also explains how sometimes people are too embarrassed or scared to look at the feedback after seeing their grade.<br> Professor Hurley has noted that students will try to do the bare minimum to get an A just to play it safe. She also believes that her students work harder when they aren't <br> being graded. 
 		
-			<div class="row">
-				<div class="col" style="background-color: #fccd92">
-					<h3 style="text-align: center;">Use Default Giorno's Theme</h3>
-					<p>If you want to use the built in Giorno's theme, just enter the time remaining in the countdown and press start!</p>
-					<label for="dramaticCheck">Use dramatic version</label>
-					<input type="checkbox" name="checkDramatic" id="dramaticCheck" value="dramatic"/><br>
-					<label for="remaining">Time Remaining (MM:SS OR SSS):</label>
-					<input value="4:00" type="text" size="4" name="txtTimeRemaining" id="remaining"/>
-					<p style="text-align: center;"><br><button onClick="runMusic(false)">Start</button></p>
-				</div>
+	<br><br> According to Colleen Flaherty, colleges are often resistant to ungrading because it goes against the "culture of assessment", and it is scary to suddenly transition to gradeless. <br>According to a scholarly article by Jeffrey Schinske and Kimberly Tanner, grades motivate students extrinsically by making them afraid of punishment or shame. They explain<br> that grades lessen intrinsic motivation, and the fear created by grades reduces interest and enjoyment of classwork. This is the main concept I played upon in my game, because <br> I have personally experienced this in some of my classes in subjects that I actually enjoy. They also explained that fear also causes students to avoid challenges. I also included <br>this idea in the game by making it much riskier to get a 3-pointer. Ultimately there are many negative side effects of grading, and students often get more out of their classes<br> if they aren't being graded and are instead given feedback.<br><br>
+		
+	So what do we replace grades with? In her online video conference, Starr Sackstein, a highschool teacher, explains her system for un-grading. She believes that using a portfolio<br> instead of traditional exams and grades is effective. Students can pick projects they want to include in their portfolio and can explain why they picked specific assignments. <br>She also believes that teachers should make their classes more project-based since projects allow stronger teacher-to-student feedback. She states that teachers and students should <br>have ongoing conversations so they are on the same page about the course expectations, and one way students can receive feedback is with reports of how the teacher assesses their <br>skills in key areas. This would be comment based feedback of course. There are a lot of things that teachers could do to replace grading in their classes. 
+	</p>
+	
+	<h3>Works Cited:</h3> 
+	<p>Schinske, Jeffrey, and Kimberly Tanner. “Teaching More by Grading Less (or Differently).” CBE life sciences education vol. 13,2 (2014): 159-66. doi:10.1187/cbe.cbe-14-03-0054 <br>
+	Flaherty, Colleen. Professors' Reflections on Their Experiences with 'Ungrading' Spark Renewed Interest in the Student-Centered Assessment Practice, 2019, www.insidehighered.com/news/2019/04/02/professors-reflections-their-experiences-ungrading-spark-renewed-interest-student. <br>
+	Hurley, Jennifer. “I Stopped Grading. You Can, Too.” Medium, Edmodo, 16 May 2018, medium.com/edmodoblog/i-stopped-grading-you-can-too-33f155911f4e. <br>
+	Sackstein, Starr. “How Teachers Can Get Rid of Traditional Grades to Promote Learning.” Youtube, Education Week, 25 May 2017, www.youtube.com/watch?v=DLnW5-OEPBk. </p>
+	
+	<script>
+		var currScreen = 0;
+		var backgrounds;
+		var dribbleFrames;
+		initializeDribble();
+		initializeBackgrounds();
+		var canvas = document.getElementById("gc");
+		var canvasContext =canvas.getContext('2d');
+		var interval;
+		var sprites;
+		
+		//variables for dribble boy scale
+		var scale = 1;
+		var offsetW = 0, offsetH = 0;
+		//keep track of accuracy
+		var position;
+		
+		//setInterval(update,1000/30);
+		canvasContext.fillRect(0, 0, 960, 720);
+
+		//use onload to wait until the picture has actually loaded before trying to draw it. 
+		backgrounds[0].onload = function(){
+    		canvasContext.drawImage(backgrounds[0], 0, 0);
+  		}
+		
+		function nextFrame() {
+			clearInterval(interval);
+			document.getElementById("test").style.display = "none";
+			this.canvasContext.fillRect(0, 0, 960, 720);
+    		this.canvasContext.drawImage(backgrounds[++currScreen], 0, 0);
 			
-				<div class="col" style="background-color: lightblue">
-					<h3 style="text-align: center;">Add Your Own Song</h3>
-		
-					<p> Use this <a href="https://sites.google.com/site/gdocs2direct/">website</a> to create a direct download link to an mp3 you have in Google Drive.<br>You can also paste a youtube link, but the timing may be slightly off. <a style="color: red">DO NOT ALTER THE YOUTUBE LINK AND DO NOT ADD A START TIME TO THE LINK. YOUTUBE VIDEOS ONLY WORK ON THE DESKTOP VERSION OF THE SITE</a> Note: some YouTube links won't work because of copyright so test it first, and if it doesn't work, try again after checking the box below.</p> <!-- I don't think an a tag was proper syntax but it works lol -->
-					
-					<label for="copyrightCheck">Check if Youtube link doesn't work:</label>
-					<input type="checkbox" name="checkCopyright" id="copyrightCheck" value="copyright"/><br>
-					<label for="txtCustom">Custom song link:</label>
-					<input type="text" size="30" name="customLink" id="customLink"/>
-					
-					<label for="remaining">Time Remaining (MM:SS OR SSS):</label>
-					<input value="4:00" type="text" size="4" name="txtTimeRemainingCustom" id="remainingCustom"/>
-		
-					<br><label for="timestamp">Timestamp to allign to:</label>
-					<input type="text" size="4" name="txtTimestamp" id="timestamp" value=""/>
-					<p style="text-align: center;"><br><button onClick="runMusic(true)">Start</button></p>
-				 </div>
-			</div>
-			<div class="row">
-				<div class="col">
-					<p style="text-align: center;">Tip: don't press start until the countdown changes to the desired second(aka don't try to click early to get it right on the second)</p>
-					<br><h3 id="testOutput" style="text-align: center"></h3>
-				</div>
-			</div>
-		
-		<!--This frame will contain the embedded youtube video if they choose to use a youtube link-->
-		<iframe id="youtubeFrame" width="1" height="1" src="https://www.youtube.com/embed/ov5qRvWCavg?start=2&autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen ></iframe>
-		
-			
-		<script>
-			var youtube = false;
-			var customLink = false;
-			var lastSong;
-			var usingPlayer;
-			var running = false;
-			var cancelled = false;
-			
-			function runMusic(link) {
-				reset();
-				customLink = link;
-				// convert given times to seconds
-				var remaining = 0;
-				var timestamp = document.getElementById("timestamp").value;
-				
-				var remainingSec = 0;
-				//document.getElementById("testOutput").innerHTML = remaining;
-				if (customLink) {
-					remaining = document.getElementById("remainingCustom").value;
-					remainingSec = calculateSeconds(remaining, "remainingCustom");
+			if (currScreen == 2 || currScreen == 4) {
+				document.getElementById("next").style.display = "none";
+				document.getElementById("2pointer").style.display = "block";
+				document.getElementById("3pointer").style.display = "block";
+				document.getElementById("set").style.display = "block";
+				if (currScreen == 2) {
+					dribble(true);
 				} else {
-					remaining = document.getElementById("remaining").value;
-					remainingSec = calculateSeconds(remaining, "remaining");
-				}
-				//var timestampSec = calculateSeconds(timestamp, "timestamp");
-				
-				if (document.getElementById("dramaticCheck").checked) {
-					var timestampSec = 100;
-				} else if(customLink){
-					if (document.getElementById("customLink").value.includes("youtu")) {
-						//document.getElementById("testOutput").innerHTML = "dogs";
-						youtube = true;
-					} else {
-						document.getElementById("custom").src = document.getElementById("customLink").value;
-					}
-					var timestampSec = calculateSeconds(timestamp, "timestamp");
-				} else {
-					var timestampSec = 226;
-				}
-				
-				//do the thing
-				waitToPlay(remainingSec, timestampSec);
+					dribble(false);
+				} 
+			}
+			if (currScreen == 5) {
+				document.getElementById("next").style.display = "none";
+			}
+		}
+		
+		function dribble(happy) {
+			var counter = 0;
+			var mouth = new Image();
+			var coach = new Image();
+			if (happy) {
+				mouth.src = "assets/faces/smile.png";
+			} else {
+				mouth.src = "assets/faces/frown.png";
+				coach.src = "assets/coach.png";
 				
 			}
 			
-			function calculateSeconds(strTime, id) {
-				var intTime = 0;
-				// get rid of any spaces entered by accident
-				while(strTime.includes(" ")) {
-					strTime = strTime.replace(" ", "");
+			interval = setInterval(function() {
+				this.canvasContext.drawImage(backgrounds[2], 0, 0);
+				if (counter == 9) {
+					counter = 0;
 				}
-				// update the value to remove spaces
-				document.getElementById(id).value = strTime;
-				
-				// check if they included minutes
-				// calculate time
-				if (strTime.includes(":")) {
-					intTime = parseInt(strTime.substring(0,strTime.indexOf(":"))) * 60;
-					intTime += parseInt(strTime.substring(strTime.indexOf(":") + 1, strTime.length));
-						
-				} else {
-					intTime = parseInt(strTime);
+				this.canvasContext.drawImage(dribbleFrames[counter], offsetW, offsetH, dribbleFrames[counter].width * scale, dribbleFrames[counter].height * scale);
+				this.canvasContext.drawImage(mouth, offsetW, offsetH, (mouth.width * scale), (mouth.height * scale));
+				if (!happy) {
+					this.canvasContext.drawImage(coach, 0, 0);
 				}
+				counter++;
 				
-				return intTime;
+			}, 20);
+    			
+		}
+		
+		function initializeBackgrounds() {
+			var array = [new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
+			array[0].src = "assets/backgrounds/titleScreen.png";
+			array[1].src = "assets/backgrounds/scenario1.png";
+			array[2].src = "assets/backgrounds/court.png";
+			array[3].src = "assets/backgrounds/funExplanation.png";
+			array[4].src = "assets/backgrounds/court.png";
+			array[5].src = "assets/backgrounds/conclusionScreen.png";
+			this.backgrounds = array;
+		}
+		
+		function initializeDribble() {
+			document.getElementById("test").innerHTML = "JD Power";
+			var array = [new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
+			array[0].src = "assets/dribble/dribble1.png";
+			array[1].src = "assets/dribble/dribble2.png";
+			array[2].src = "assets/dribble/dribble3.png";
+			array[3].src = "assets/dribble/dribble4.png";
+			array[4].src = "assets/dribble/dribble5.png";
+			array[5].src = "assets/dribble/dribble4.png";
+			array[6].src = "assets/dribble/dribble3.png";
+			array[7].src = "assets/dribble/dribble2.png";
+			array[8].src = "assets/dribble/dribble1.png";
+			array[9].src = "assets/throw/throw1.png";
+			array[10].src = "assets/throw/throw2.png";
+			array[11].src = "assets/ball.png";
+			array[12].src = "assets/coach.png";
+			array[13].src = "lucky.png";
+			array[14].src = "assets/failTextBox.png";
+			document.getElementById("test").innerHTML = "soup";
+			
+			this.dribbleFrames = array;
+		}
+		
+		function set2() {
+			scale = .5;
+			offsetH = 175;
+			offsetW = 220;
+		}
+		
+		function set3() {
+			scale = 1;
+			offsetH = 0;
+			offsetW = 0;
+		}
+		
+		function set() {
+			clearInterval(interval);
+			//set up shooting position image
+			var coach = new Image();
+			var shootPose = new Image();
+			shootPose.src = "assets/throw/throw1.png";
+			var mouth = new Image();
+			if (currScreen == 2) {
+				mouth.src = "assets/faces/smile.png";
+			} else {
+				mouth.src = "assets/faces/frown.png";
+				coach.src = "assets/coach.png";
 			}
 			
-			function waitToPlay(timeRemaining, timestamp) {
-				timeRemaining = parseInt(timeRemaining);
-				timestamp = parseInt(timestamp);
-				//document.getElementById("testOutput").innerHTML = (timeRemaining > timestamp);
-				if (timeRemaining > timestamp) {
-					var waitTime = (timeRemaining - timestamp) * 1000 - 500;
-					document.getElementById("testOutput").innerHTML = "Waiting " + waitTime / 1000 + " seconds to start.";
-					setTimeout(function() {
-						if(!youtube) {
-							playMusic(0);
-						} else if(document.getElementById("copyrightCheck").checked){
-							window.open(formatWindow(3), "_blank");
-						} else {
-							//document.getElementById("testOutput").innerHTML = "test";
-							var url = formatUrl(2);
-							document.getElementById("testOutput").innerHTML = "Now Playing";
-							document.getElementById("youtubeFrame").src = url;
+			//position variable for aim thing
+			position = -1;
+			
+			//set button visibility
+			document.getElementById("2pointer").style.display = "none";
+			document.getElementById("3pointer").style.display = "none";
+			document.getElementById("set").style.display = "none";
+			document.getElementById("shoot").style.display = "block";
+			document.getElementById("test").style.display = "none";
+			
+			var speed;
+			if (scale == 1) {
+				speed = 1;
+			} else {
+				speed = 10;
+			}
+			
+			//redraw the frame and prepare shooting
+			interval = setInterval(function() {
+				this.canvasContext.drawImage(backgrounds[2], 0, 0);
+				this.canvasContext.drawImage(shootPose, offsetW, offsetH, shootPose.width * scale, shootPose.height * scale);
+				this.canvasContext.drawImage(mouth, offsetW, offsetH, (mouth.width * scale), (mouth.height * scale));
+				if (currScreen == 4) {
+					this.canvasContext.drawImage(coach, 0, 0);
+				}
+				
+				//create rail
+				this.canvasContext.fillStyle = "grey";
+				this.canvasContext.fillRect(900, 100, 20, 200);
+				// create target zone
+				this.canvasContext.fillStyle = "green";
+				this.canvasContext.fillRect(895, 190, 30, 20);
+				// create aim line
+				this.canvasContext.fillStyle = "red";
+				this.canvasContext.fillRect(900, 100 + position, 20, 10);
+				position += 2;
+				//reset arrow thing if it gets to the end
+				if (position >= 190) {
+					position = -1;
+				}
+			}, speed); 
+		}
+		
+		function shoot() {
+			document.getElementById("shoot").style.display = "none";
+			clearInterval(interval);
+			//set up shooting position image
+			var coach = new Image();
+			var lucky = new Image();
+			var fail = new Image();
+			var shootPose = new Image();
+			shootPose.src = "assets/throw/throw2.png";
+			var ball = new Image();
+			ball.src = "assets/ball.png";
+			var mouth = new Image();
+			if (currScreen == 2) {
+				mouth.src = "assets/faces/smile.png";
+			} else {
+				mouth.src = "assets/faces/frown.png";
+				coach.src = "assets/coach.png";
+				lucky.src = "assets/lucky.png";
+				fail.src = "assets/failTextBox.png";
+			}
+			
+			var x = 0, y = 0;
+			var xOffset, yOffset;
+			
+			interval = setInterval(function() {
+				this.canvasContext.drawImage(backgrounds[2], 0, 0);
+				this.canvasContext.drawImage(shootPose, offsetW, offsetH, shootPose.width * scale, shootPose.height * scale);
+				this.canvasContext.drawImage(mouth, offsetW, offsetH, (mouth.width * scale), (mouth.height * scale));
+				if (currScreen == 4) {
+					this.canvasContext.drawImage(coach, 0, 0);
+				}
+				
+				if (position > 90 && position < 110) {
+					if (scale == 1) {
+						//success
+						xOffset = 190;
+						yOffset = 40;
+						y = -50 * (-1 * (1 / 70 * x + 3) ** 2 - (1 / 70 * x + 3) ** (-2) + 9);
+						this.canvasContext.drawImage(ball, xOffset + x, yOffset + y);
+						document.getElementById("test").innerHTML = x;
+						x--;
+						if (x < -187) {
+							document.getElementById("test").style.display = "block";
+							if (currScreen == 4) {
+							canvasContext.drawImage(lucky, 0, 0);
+							document.getElementById("test").innerHTML = "You get an A.";
+							} else {
+								document.getElementById("test").innerHTML = "Great job! That was impressive!";
+							}
+							document.getElementById("next").style.display = "block";
+							cancelInterval();
 						}
-					}, waitTime);
+					} else {
+						xOffset = 315;
+						yOffset = 180;
+						y = -35 * (-1 * (1 / 30 * x + 3) ** 2 - (1 / 30 * x + 3) ** (-2) + 9);
+						this.canvasContext.drawImage(ball, xOffset + x, yOffset + y, ball.width * scale, ball.height * scale);
+						document.getElementById("test").innerHTML = x;
+						x--;
+						if (x < -81) {
+							document.getElementById("test").style.display = "block";
+							
+							document.getElementById("next").style.display = "block";
+							if (currScreen == 4) {
+							canvasContext.drawImage(lucky, 0, 0);
+							document.getElementById("test").innerHTML = "You get an A.";
+							} else {
+								document.getElementById("test").innerHTML = "Good job. I bet you could go for 3!";
+							}
+							cancelInterval();
+						}
+					}
 				} else {
-					var startTime = timestamp - timeRemaining;
-					if(!youtube) {
-						playMusic(startTime + .5);
-					} else if(document.getElementById("copyrightCheck").checked){
-						url = 
-						window.open(formatWindow(startTime + 3), "_blank");
-					} else { 
-						document.getElementById("testOutput").innerHTML = "Now Playing";
-						document.getElementById("youtubeFrame").src = formatUrl(startTime + 2);
+					if (scale == 1) {
+					//fail
+						xOffset = 190;
+						yOffset = 40;
+						y = -50 * (-1 * (1 / 50 * x + 3) ** 2 - (1 / 50 * x + 3) ** (-2) + 9);
+						this.canvasContext.drawImage(ball, xOffset + x, yOffset + y);
+						document.getElementById("test").innerHTML = x;
+						x--;
+						if (x < -134) {
+							document.getElementById("test").style.display = "block";
+							
+							if (currScreen == 4) {
+								document.getElementById("test").innerHTML = "Maybe you shouldn't have taken that risk...";
+								canvasContext.drawImage(fail, 0, 0);
+								document.getElementById("next").style.display = "block";
+							} else {
+								document.getElementById("test").innerHTML = "Give it another shot!";
+								document.getElementById("set").style.display = "block";
+							}
+							cancelInterval();
+						}
+					} else {
+						xOffset = 315;
+						yOffset = 180;
+						y = -40 * (-1 * (1 / 50 * x + 3) ** 2 - (1 / 50 * x + 3) ** (-2) + 9);
+						this.canvasContext.drawImage(ball, xOffset + x, yOffset + y, ball.width * scale, ball.height * scale);
+						document.getElementById("test").innerHTML = x;
+						x--;
+						if (x < -135) {
+							document.getElementById("test").style.display = "block";
+							document.getElementById("test").innerHTML = "You couldn't even do the bare minimum.";
+							document.getElementById("next").style.display = "block";
+							canvasContext.drawImage(fail, 0, 0);
+							cancelInterval();
+						}
 					}
 				}
-			}
-			
-			function playMusic(startTime) {
-				if (!cancelled) {
-					document.getElementById("testOutput").innerHTML = "Now Playing";
-					if (document.getElementById("dramaticCheck").checked) {
-						var song = document.getElementById("dramatic");
-					} else if (customLink) {
-						var song = document.getElementById("custom");
-					}else {
-						var song = document.getElementById("song");
-					}
-				song.currentTime = startTime;
-				lastSong = song;
-				usingPlayer = true;
-				song.play();
-				}
-			}
-			
-			
-			function formatUrl(startTime) {
-				var url = document.getElementById("customLink").value;
-				//document.getElementById("testOutput").innerHTML = url;
-				if(url.includes("https://")) {
-					url = url.replace("https://", "");
-				}
-				
-				if(url.includes("youtu.be")) {
-					url = url.replace("youtu.be", "www.youtube.com");
-				} 
-				
-				if (url.includes("watch?v=")) {
-					url = url.replace("watch?v=", "");
-				}
-				var split = url.indexOf("/");
-				url = "https://" + url.substring(0, split) + "/embed/" + url.substring(split + 1, url.lenght);
-				var end = "?start=" + startTime + + "&playsinline=1&enablejsapi=1" + "&autoplay=1";
-				url = url.concat(end);
-	
-				return url;
-			}
-			
-			function formatWindow(startTime) {
-				var url = document.getElementById("customLink").value;
-				
-				if(url.includes("www.youtube.com")) {
-					url = url.replace("www.youtube.com", "youtu.be");
-				} 
-				if(url.includes("youtube.com")) {
-					url = url.replace("youtube.com", "youtu.be");
-				} 
-				
-				if (url.includes("watch?v=")) {
-					url = url.replace("watch?v=", "");
-				}
-				
-				url = url.concat("?t=" + startTime);
-				
-				return url;
-			}
-			
-			function reset() {
-				if (usingPlayer) {
-					lastSong.currentTime = 0;
-					lastSong.pause();
-				} else {
-					document.getElementById("youtubeFrame").src = "";
-				}
-				
-				youtube = false;
-				customLink = false;
-				lastSong = null;
-				usingPlayer = null;
-				running = false;
-			}
-			
-		</script>
-		</div>
-	</body>
+			}, 5);
+		}
+		
+		function cancelInterval() {
+			clearInterval(interval);
+		}
+		
+	</script>
+</body>
 </html>
