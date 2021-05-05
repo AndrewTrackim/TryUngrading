@@ -87,80 +87,316 @@
 
 <!-------------------------------Game Code------------------------------------>
 <script>
-    var currScreen = 0;
-    var backgrounds;
-    var dribbleFrames;
-    initializeDribble();
-    initializeBackgrounds();
-    var canvas = document.getElementById("gc");
-    var canvasContext =canvas.getContext('2d');
-    var interval;
-    var sprites;
-    
-    //variables for dribble boy scale
-    var scale = 1;
-    var offsetW = 0, offsetH = 0;
-    //keep track of accuracy
-    var position;
-    
-    //setInterval(update,1000/30);
-    canvasContext.fillRect(0, 0, 960, 720);
+		var currScreen = 0;
+		var backgrounds; //array of backgrounds
+		var dribbleFrames; //array of sprites
+		initializeDribble(); // initializes/loads sprites
+		initializeBackgrounds(); // initializes/loads backgrounds
+		var canvas = document.getElementById("gc"); //the canvas is what the game is drawn on
+		var canvasContext =canvas.getContext('2d'); //do operatons on the context, 2d tells it the game is 2d
+		var interval;
+		
+		//variables for dribble boy scale
+		var scale = 1;
+		var offsetW = 0, offsetH = 0;
+		//keep track of accuracy
+		var position;
+		
+		//setInterval(update,1000/30);
+		canvasContext.fillRect(0, 0, 960, 720);
 
-    //use onload to wait until the picture has actually loaded before trying to draw it. 
-    backgrounds[0].onload = function(){
-      canvasContext.drawImage(backgrounds[0], 0, 0);
-      }
-    
-    function nextFrame() {
-      clearInterval(interval);
-      document.getElementById("test").style.display = "none";
-      this.canvasContext.fillRect(0, 0, 960, 720);
-      this.canvasContext.drawImage(backgrounds[++currScreen], 0, 0);
-      
-      if (currScreen == 2 || currScreen == 4) {
-        document.getElementById("next").style.display = "none";
-        document.getElementById("2pointer").style.display = "block";
-        document.getElementById("3pointer").style.display = "block";
-        document.getElementById("set").style.display = "block";
-        if (currScreen == 2) {
-          dribble(true);
-        } else {
-          dribble(false);
-        } 
-      }
-      if (currScreen == 5) {
-        document.getElementById("next").style.display = "none";
-      }
-    }
-    
-    function dribble(happy) {
-      var counter = 0;
-      var mouth = new Image();
-      var coach = new Image();
-      if (happy) {
-        mouth.src = "assets/faces/smile.png";
-      } else {
-        mouth.src = "assets/faces/frown.png";
-        coach.src = "assets/coach.png";
-        
-      }
-      
-      interval = setInterval(function() {
-        this.canvasContext.drawImage(backgrounds[2], 0, 0);
-        if (counter == 9) {
-          counter = 0;
-        }
-        this.canvasContext.drawImage(dribbleFrames[counter], offsetW, offsetH, dribbleFrames[counter].width * scale, dribbleFrames[counter].height * scale);
-        this.canvasContext.drawImage(mouth, offsetW, offsetH, (mouth.width * scale), (mouth.height * scale));
-        if (!happy) {
-          this.canvasContext.drawImage(coach, 0, 0);
-        }
-        counter++;
-        
-      }, 20);
-        
-    }
-    
+		//use onload to wait until the picture has actually loaded before trying to draw it. 
+		backgrounds[0].onload = function(){
+			// draw the home screen when the site loads
+    		canvasContext.drawImage(backgrounds[0], 0, 0);
+  		}
+		
+		// this function is called whenever next is presssed, it switches backgrounds
+		function nextFrame() {
+			// this stops any refresh loops currently taking place
+			clearInterval(interval);
+			// makes sure the text box is hidden
+			document.getElementById("test").style.display = "none";
+			this.canvasContext.fillRect(0, 0, 960, 720);
+			// sets background to the next background
+    		this.canvasContext.drawImage(backgrounds[++currScreen], 0, 0);
+			
+			// if we are currently on the court, set up the display for the court
+			if (currScreen == 2 || currScreen == 4) {
+				document.getElementById("next").style.display = "none";
+				document.getElementById("2pointer").style.display = "block";
+				document.getElementById("3pointer").style.display = "block";
+				document.getElementById("set").style.display = "block";
+				// the boolean for dribble indicates the facial expression
+				if (currScreen == 2) {
+					dribble(true);
+				} else {
+					dribble(false);
+				} 
+			}
+			// get rid of the next button because this is the last screen
+			if (currScreen == 5) {
+				document.getElementById("next").style.display = "none";
+			}
+		}
+		
+		// this function does the animation for the dude dribbling
+		function dribble(happy) {
+			var counter = 0;
+			var mouth = new Image();
+			var coach = new Image();
+			// sets proper mouth and coach if applicable
+			if (happy) {
+				mouth.src = dribbleFrames[16].src;
+			} else {
+				mouth.src = dribbleFrames[15].src;
+				coach.src = dribbleFrames[12].src;
+				
+			}
+			
+			// cycle through the dribble frames, scaling properly depending on point value
+			interval = setInterval(function() {
+				this.canvasContext.drawImage(backgrounds[2], 0, 0);
+				// resets animation after 9 frames
+				if (counter == 9) {
+					counter = 0;
+				}
+				//draw the current dude in his current frame. scale is either 1 or .5
+				this.canvasContext.drawImage(dribbleFrames[counter], offsetW, offsetH, dribbleFrames[counter].width * scale, dribbleFrames[counter].height * scale);
+				this.canvasContext.drawImage(mouth, offsetW, offsetH, (mouth.width * scale), (mouth.height * scale));
+				if (!happy) {
+					//only draws the coach if not happy (aka on screen 4)
+					this.canvasContext.drawImage(coach, 50, 100, coach.width * .75, coach.height * .75);
+				}
+				counter++;
+				
+			}, 20); //20 just represents the speed
+    			
+		}
+		
+		// set the proper scale and offset for the guy when going for 2 points
+		function set2() {
+			scale = .5;
+			offsetH = 175;
+			offsetW = 220;
+		}
+		
+		// set the proper scale and offset for the guy when going for 3 points
+		function set3() {
+			scale = 1;
+			offsetH = 0;
+			offsetW = 0;
+		}
+		
+		// this function is called when the player chooses what they want to go for, this is where they attempt to make the shot
+		function set() {
+			//stop the dribble animation
+			clearInterval(interval);
+			//set up shooting position image
+			var coach = new Image();
+			var shootPose = new Image();
+			shootPose.src = dribbleFrames[9].src;
+			var mouth = new Image();
+			//set the correct mouth and show the coach if on screen 4
+			if (currScreen == 2) {
+				mouth.src = dribbleFrames[16].src;
+			} else {
+				mouth.src = dribbleFrames[15].src;
+				coach.src = dribbleFrames[12].src;
+			}
+			
+			//position variable for aim thing
+			position = -1;
+			
+			//set button visibility
+			document.getElementById("2pointer").style.display = "none";
+			document.getElementById("3pointer").style.display = "none";
+			document.getElementById("set").style.display = "none";
+			document.getElementById("shoot").style.display = "block";
+			document.getElementById("test").style.display = "none";
+			
+			// this changes the speed that the frame refreshes depending on 
+			// what point value you are going for.
+			var speed;
+			if (scale == 1) {
+				speed = 1;
+			} else {
+				speed = 10;
+			}
+			
+			//redraw the frame and prepare shooting
+			interval = setInterval(function() {
+				this.canvasContext.drawImage(backgrounds[2], 0, 0);
+				this.canvasContext.drawImage(shootPose, offsetW, offsetH, shootPose.width * scale, shootPose.height * scale);
+				this.canvasContext.drawImage(mouth, offsetW, offsetH, (mouth.width * scale), (mouth.height * scale));
+				if (currScreen == 4) {
+					// only print coach if on screen 4
+					this.canvasContext.drawImage(coach, 50, 100, (coach.width * .75), (coach.height * .75));
+				}
+				
+				//create rail
+				this.canvasContext.fillStyle = "grey";
+				this.canvasContext.fillRect(900, 100, 20, 200);
+				// create target zone
+				this.canvasContext.fillStyle = "green";
+				this.canvasContext.fillRect(895, 190, 30, 20);
+				// create aim line
+				this.canvasContext.fillStyle = "red";
+				this.canvasContext.fillRect(900, 100 + position, 20, 10);
+				position += 2; //increment aim line position
+				//reset arrow thing if it gets to the end
+				if (position >= 190) {
+					position = -1;
+				}
+			}, speed); 
+		}
+		
+		// this function is called when they press the shoot button
+		// it determines whether or not you made a basket and animates the ball accordingly
+		function shoot() {
+			document.getElementById("shoot").style.display = "none";
+			clearInterval(interval);
+			//set up shooting position image
+			// set up coach and text box if applicable
+			var coach = new Image();
+			var lucky = new Image();
+			var fail = new Image();
+			var shootPose = new Image();
+			shootPose.src = dribbleFrames[10].src;
+			var ball = new Image();
+			ball.src = dribbleFrames[11].src;
+			var mouth = new Image();
+      var net = new Image();
+      net.src = dribbleFrames[17].src;
+			if (currScreen == 2) {
+				mouth.src = dribbleFrames[16].src;
+			} else {
+				mouth.src = dribbleFrames[15].src;
+				coach.src = dribbleFrames[12].src;
+				lucky.src = dribbleFrames[13].src;
+				fail.src = dribbleFrames[14].src;
+			}
+			
+			// x and y store the ball position
+			var x = 0, y = 0;
+			var xOffset, yOffset;
+			
+			interval = setInterval(function() {
+				this.canvasContext.drawImage(backgrounds[2], 0, 0);
+				this.canvasContext.drawImage(shootPose, offsetW, offsetH, shootPose.width * scale, shootPose.height * scale);
+				this.canvasContext.drawImage(mouth, offsetW, offsetH, (mouth.width * scale), (mouth.height * scale));
+				//draw coach only if on screen 4
+				if (currScreen == 4) {
+					this.canvasContext.drawImage(coach, 50, 100, (coach.width * .75), (coach.height * .75));
+				}
+				
+				// if they made the shot, show the correct animation and then let them move on.
+				if (position > 90 && position < 110) {
+					// see if they are going for 3
+					if (scale == 1) {
+						//success
+						xOffset = 190;
+						yOffset = 40;
+						//wacky function I made so I didn't have to animate ball trajectory
+						y = -50 * (-1 * (1 / 70 * x + 3) ** 2 - (1 / 70 * x + 3) ** (-2) + 9);
+						//put ball in current position
+						this.canvasContext.drawImage(ball, xOffset + x, yOffset + y);
+						document.getElementById("test").innerHTML = x;
+						x--;
+						// see what frame the ball is on, after 187, it has reached its end position so the animation can stop
+						if (x < -187) {
+							document.getElementById("test").style.display = "block";
+							// different message depending on what screen
+							if (currScreen == 4) {
+							canvasContext.drawImage(lucky, 0, 0);
+							document.getElementById("test").innerHTML = "You get an A.";
+							} else {
+								document.getElementById("test").innerHTML = "Great job! That was impressive!";
+							}
+							document.getElementById("next").style.display = "block";
+							clearInterval(interval);
+						}
+					// success animation if they went for 2
+					} else {
+						xOffset = 315;
+						yOffset = 180;
+						// similar formula as before but smalloer
+						y = -35 * (-1 * (1 / 30 * x + 3) ** 2 - (1 / 30 * x + 3) ** (-2) + 9);
+						this.canvasContext.drawImage(ball, xOffset + x, yOffset + y, ball.width * scale, ball.height * scale);
+						document.getElementById("test").innerHTML = x;
+						x--;
+						// for 2 pointer, ball only has 81 frames before it stops. 
+						if (x < -81) {
+							document.getElementById("test").style.display = "block";
+							
+							document.getElementById("next").style.display = "block";
+							
+							// different message depending on what screen
+							if (currScreen == 4) {
+							canvasContext.drawImage(lucky, 0, 0);
+							document.getElementById("test").innerHTML = "You get an A.";
+							} else {
+								document.getElementById("test").innerHTML = "Good job. I bet you could go for 3!";
+							}
+							clearInterval(interval);
+						}
+					}
+				// animate ball for failed throw
+				} else {
+					// 3-pointer
+					if (scale == 1) {
+					//fail
+						xOffset = 190;
+						yOffset = 40;
+						y = -50 * (-1 * (1 / 50 * x + 3) ** 2 - (1 / 50 * x + 3) ** (-2) + 9);
+						this.canvasContext.drawImage(ball, xOffset + x, yOffset + y);
+						document.getElementById("test").innerHTML = x;
+						x--;
+						// ball has 134 frames
+						if (x < -134) {
+							document.getElementById("test").style.display = "block";
+							
+							// if screen 4, they can't try again.
+							if (currScreen == 4) {
+								document.getElementById("test").innerHTML = "Maybe you shouldn't have taken that risk...";
+								canvasContext.drawImage(fail, 0, 0);
+								document.getElementById("next").style.display = "block";
+							} else {
+								document.getElementById("test").innerHTML = "Give it another shot!";
+								document.getElementById("set").style.display = "block";
+							}
+							clearInterval(interval);
+						}
+					// 2-pointer
+					} else {
+						xOffset = 315;
+						yOffset = 180;
+						y = -40 * (-1 * (1 / 50 * x + 3) ** 2 - (1 / 50 * x + 3) ** (-2) + 9);
+						this.canvasContext.drawImage(ball, xOffset + x, yOffset + y, ball.width * scale, ball.height * scale);
+						document.getElementById("test").innerHTML = x;
+						x--;
+						//this has 135 frames
+						if (x < -135) {
+							document.getElementById("test").style.display = "block";
+							
+							// can't try again if on screen 4
+							if (currScreen == 4) {
+								document.getElementById("test").innerHTML = "You couldn't even do the bare minimum.";
+								document.getElementById("next").style.display = "block";
+								canvasContext.drawImage(fail, 0, 0);
+							} else {
+								document.getElementById("test").innerHTML = "Give it another shot!";
+								document.getElementById("set").style.display = "block";
+							}
+							clearInterval(interval);
+						}
+					}
+				}
+        // print net last so that the ball goes behind it
+        this.canvasContext.drawImage(net, 0, 0);
+      }, 5);
+		}
+
     function initializeBackgrounds() {
       var array = [new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
       array[0].src = "assets/backgrounds/titleScreen.png";
@@ -174,7 +410,7 @@
     
     function initializeDribble() {
       document.getElementById("test").innerHTML = "JD Power";
-      var array = [new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
+      var array = [new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
       array[0].src = "assets/dribble/dribble1.png";
       array[1].src = "assets/dribble/dribble2.png";
       array[2].src = "assets/dribble/dribble3.png";
@@ -188,203 +424,14 @@
       array[10].src = "assets/throw/throw2.png";
       array[11].src = "assets/ball.png";
       array[12].src = "assets/coach.png";
-      array[13].src = "lucky.png";
+      array[13].src = "assets/lucky.png";
       array[14].src = "assets/failTextBox.png";
+      array[15].src = "assets/faces/frown.png";
+      array[16].src = "assets/faces/smile.png";
+      array[17].src = "assets/net.png";
       document.getElementById("test").innerHTML = "soup";
       
       this.dribbleFrames = array;
-    }
-    
-    function set2() {
-      scale = .5;
-      offsetH = 175;
-      offsetW = 220;
-    }
-    
-    function set3() {
-      scale = 1;
-      offsetH = 0;
-      offsetW = 0;
-    }
-    
-    function set() {
-      clearInterval(interval);
-      //set up shooting position image
-      var coach = new Image();
-      var shootPose = new Image();
-      shootPose.src = "assets/throw/throw1.png";
-      var mouth = new Image();
-      if (currScreen == 2) {
-        mouth.src = "assets/faces/smile.png";
-      } else {
-        mouth.src = "assets/faces/frown.png";
-        coach.src = "assets/coach.png";
-      }
-      
-      //position variable for aim thing
-      position = -1;
-      
-      //set button visibility
-      document.getElementById("2pointer").style.display = "none";
-      document.getElementById("3pointer").style.display = "none";
-      document.getElementById("set").style.display = "none";
-      document.getElementById("shoot").style.display = "block";
-      document.getElementById("test").style.display = "none";
-      
-      var speed;
-      if (scale == 1) {
-        speed = 1;
-      } else {
-        speed = 10;
-      }
-      
-      //redraw the frame and prepare shooting
-      interval = setInterval(function() {
-        this.canvasContext.drawImage(backgrounds[2], 0, 0);
-        this.canvasContext.drawImage(shootPose, offsetW, offsetH, shootPose.width * scale, shootPose.height * scale);
-        this.canvasContext.drawImage(mouth, offsetW, offsetH, (mouth.width * scale), (mouth.height * scale));
-        if (currScreen == 4) {
-          this.canvasContext.drawImage(coach, 0, 0);
-        }
-        
-        //create rail
-        this.canvasContext.fillStyle = "grey";
-        this.canvasContext.fillRect(900, 100, 20, 200);
-        // create target zone
-        this.canvasContext.fillStyle = "green";
-        this.canvasContext.fillRect(895, 190, 30, 20);
-        // create aim line
-        this.canvasContext.fillStyle = "red";
-        this.canvasContext.fillRect(900, 100 + position, 20, 10);
-        position += 2;
-        //reset arrow thing if it gets to the end
-        if (position >= 190) {
-          position = -1;
-        }
-      }, speed); 
-    }
-    
-    function shoot() {
-      document.getElementById("shoot").style.display = "none";
-      clearInterval(interval);
-      //set up shooting position image
-      var coach = new Image();
-      var lucky = new Image();
-      var fail = new Image();
-      var shootPose = new Image();
-      shootPose.src = "assets/throw/throw2.png";
-      var ball = new Image();
-      ball.src = "assets/ball.png";
-      var mouth = new Image();
-      if (currScreen == 2) {
-        mouth.src = "assets/faces/smile.png";
-      } else {
-        mouth.src = "assets/faces/frown.png";
-        coach.src = "assets/coach.png";
-        lucky.src = "assets/lucky.png";
-        fail.src = "assets/failTextBox.png";
-      }
-      
-      var x = 0, y = 0;
-      var xOffset, yOffset;
-      
-      interval = setInterval(function() {
-        this.canvasContext.drawImage(backgrounds[2], 0, 0);
-        this.canvasContext.drawImage(shootPose, offsetW, offsetH, shootPose.width * scale, shootPose.height * scale);
-        this.canvasContext.drawImage(mouth, offsetW, offsetH, (mouth.width * scale), (mouth.height * scale));
-        if (currScreen == 4) {
-          this.canvasContext.drawImage(coach, 0, 0);
-        }
-        
-        if (position > 90 && position < 110) {
-          if (scale == 1) {
-            //success
-            xOffset = 190;
-            yOffset = 40;
-            y = -50 * (-1 * (1 / 70 * x + 3) ** 2 - (1 / 70 * x + 3) ** (-2) + 9);
-            this.canvasContext.drawImage(ball, xOffset + x, yOffset + y);
-            document.getElementById("test").innerHTML = x;
-            x--;
-            if (x < -187) {
-              document.getElementById("test").style.display = "block";
-              if (currScreen == 4) {
-              canvasContext.drawImage(lucky, 0, 0);
-              document.getElementById("test").innerHTML = "You get an A.";
-              } else {
-                document.getElementById("test").innerHTML = "Great job! That was impressive!";
-              }
-              document.getElementById("next").style.display = "block";
-              cancelInterval();
-            }
-          } else {
-            xOffset = 315;
-            yOffset = 180;
-            y = -35 * (-1 * (1 / 30 * x + 3) ** 2 - (1 / 30 * x + 3) ** (-2) + 9);
-            this.canvasContext.drawImage(ball, xOffset + x, yOffset + y, ball.width * scale, ball.height * scale);
-            document.getElementById("test").innerHTML = x;
-            x--;
-            if (x < -81) {
-              document.getElementById("test").style.display = "block";
-              
-              document.getElementById("next").style.display = "block";
-              if (currScreen == 4) {
-              canvasContext.drawImage(lucky, 0, 0);
-              document.getElementById("test").innerHTML = "You get an A.";
-              } else {
-                document.getElementById("test").innerHTML = "Good job. I bet you could go for 3!";
-              }
-              cancelInterval();
-            }
-          }
-        } else {
-          if (scale == 1) {
-          //fail
-            xOffset = 190;
-            yOffset = 40;
-            y = -50 * (-1 * (1 / 50 * x + 3) ** 2 - (1 / 50 * x + 3) ** (-2) + 9);
-            this.canvasContext.drawImage(ball, xOffset + x, yOffset + y);
-            document.getElementById("test").innerHTML = x;
-            x--;
-            if (x < -134) {
-              document.getElementById("test").style.display = "block";
-              
-              if (currScreen == 4) {
-                document.getElementById("test").innerHTML = "Maybe you shouldn't have taken that risk...";
-                canvasContext.drawImage(fail, 0, 0);
-                document.getElementById("next").style.display = "block";
-              } else {
-                document.getElementById("test").innerHTML = "Give it another shot!";
-                document.getElementById("set").style.display = "block";
-              }
-              cancelInterval();
-            }
-          } else {
-            xOffset = 315;
-            yOffset = 180;
-            y = -40 * (-1 * (1 / 50 * x + 3) ** 2 - (1 / 50 * x + 3) ** (-2) + 9);
-            this.canvasContext.drawImage(ball, xOffset + x, yOffset + y, ball.width * scale, ball.height * scale);
-            document.getElementById("test").innerHTML = x;
-            x--;
-            if (x < -135) {
-                document.getElementById("test").style.display = "block";
-              
-              if (currScreen == 4) {
-                document.getElementById("test").innerHTML = "You couldn't even do the bare minimum.";
-                canvasContext.drawImage(fail, 0, 0);
-                document.getElementById("next").style.display = "block";
-              } else {
-                document.getElementById("test").innerHTML = "Give it another shot!";
-                document.getElementById("set").style.display = "block";
-              }
-              cancelInterval();
-            }
-          }
-        }
-      }, 5);
-    }
-    
-    function cancelInterval() {
-      clearInterval(interval);
     }
     
   </script>
